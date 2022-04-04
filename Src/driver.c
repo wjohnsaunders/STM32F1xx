@@ -1030,7 +1030,11 @@ bool driver_init (void)
 
     __HAL_AFIO_REMAP_SWJ_NOJTAG();
 
+#ifdef BOARD_INFO
+    hal.info = BOARD_INFO;
+#else
     hal.info = "STM32F103C8";
+#endif
     hal.driver_version = "220325";
 #ifdef BOARD_NAME
     hal.board = BOARD_NAME;
