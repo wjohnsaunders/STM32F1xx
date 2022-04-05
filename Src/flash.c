@@ -29,7 +29,11 @@
 #include "grbl/hal.h"
 #include "stm32f1xx_hal_flash_ex.h"
 
-static const uint8_t *flash_target = (uint8_t *)(FLASH_BANK1_END - FLASH_PAGE_SIZE * 2 + 1);    // Last page start adress
+#ifdef BOARD_END_OF_FLASH
+static const uint8_t *flash_target = (uint8_t *)(BOARD_END_OF_FLASH - FLASH_PAGE_SIZE * 2 + 1);    // Last page start address
+#else
+static const uint8_t *flash_target = (uint8_t *)(FLASH_BANK1_END - FLASH_PAGE_SIZE * 2 + 1);    // Last page start address
+#endif
 
 bool memcpy_from_flash (uint8_t *dest)
 {

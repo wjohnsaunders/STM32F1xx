@@ -169,6 +169,10 @@ typedef struct {
     } pins;
 } pin_group_pins_t;
 
+#ifdef HAS_POST_USB_INIT
+void post_usb_init (void);
+#endif
+
 #ifdef HAS_BOARD_INIT
 void board_init (void);
 #endif

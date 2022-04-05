@@ -23,12 +23,13 @@
 
 #include "driver.h"
 
-void board_init (void)
+void post_usb_init (void)
 {
-    GPIO_InitTypeDef GPIO_Init;
-    GPIO_Init.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_Init.Pin = 1 << USB_ENABLE_PIN;
-    GPIO_Init.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitTypeDef GPIO_Init = {
+        .Speed = GPIO_SPEED_FREQ_HIGH,
+        .Pin = 1 << USB_ENABLE_PIN,
+        .Mode = GPIO_MODE_OUTPUT_PP
+    };
     HAL_GPIO_Init(USB_ENABLE_PORT, &GPIO_Init);
 
     BITBAND_PERI(USB_ENABLE_PORT->ODR, USB_ENABLE_PIN) = USB_ENABLE_STATE;

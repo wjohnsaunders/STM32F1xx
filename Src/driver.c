@@ -1089,6 +1089,9 @@ bool driver_init (void)
 
 #if USB_SERIAL_CDC
     stream_connect(usbInit());
+#ifdef HAS_POST_USB_INIT
+    post_usb_init();
+ #endif
 #else
     stream_connect(serialInit());
 #endif

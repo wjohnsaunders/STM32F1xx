@@ -24,6 +24,7 @@
 //#define BOARD_CNC3040
 //#define BOARD_CNC_BOOSTERPACK
 //#define BTT_SKR_MINI_E3_V20
+#define BOARD_BSMCE04U
 //#define BOARD_MY_MACHINE // Add my_machine_map.h before enabling this!
 
 // Configuration
