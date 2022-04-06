@@ -19,3 +19,6 @@
 [submodule "eeprom"]
 	path = eeprom
 	url = https://github.com/grblHAL/Plugin_EEPROM
+[submodule "blinkled"]
+	path = blinkled
+	url = https://github.com/wjohnsaunders/grblHAL-plugin-blinkled.git

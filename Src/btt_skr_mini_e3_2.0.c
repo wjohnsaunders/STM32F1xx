@@ -72,7 +72,7 @@ void tmc_uart_write (trinamic_motor_t driver, TMC_uart_write_datagram_t *dgr)
 {
     tmc_uart.write_n((char *)dgr->data, sizeof(TMC_uart_write_datagram_t));
 
-    while(tmc_uart.get_tx_buffer_count());	// Wait while the datagram is delivered
+    while(tmc_uart.get_tx_buffer_count());  // Wait while the datagram is delivered
 }
 
 void board_init (void)

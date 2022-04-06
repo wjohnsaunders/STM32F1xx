@@ -26,9 +26,9 @@
 void post_usb_init (void)
 {
     GPIO_InitTypeDef GPIO_Init = {
-        .Speed = GPIO_SPEED_FREQ_HIGH,
-        .Pin = 1 << USB_ENABLE_PIN,
-        .Mode = GPIO_MODE_OUTPUT_PP
+        .Mode  = GPIO_MODE_OUTPUT_PP,
+        .Speed = GPIO_SPEED_FREQ_LOW,
+        .Pin   = (1 << USB_ENABLE_PIN)
     };
     HAL_GPIO_Init(USB_ENABLE_PORT, &GPIO_Init);
 

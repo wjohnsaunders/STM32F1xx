@@ -293,7 +293,7 @@ inline static __attribute__((always_inline)) void stepperSetStepOutputs (axes_si
     BITBAND_PERI(B_STEP_PORT->ODR, B_STEP_PIN) = step_outbits.b;
   #endif
 #elif STEP_OUTMODE == GPIO_MAP
-	STEP_PORT->ODR = (STEP_PORT->ODR & ~STEP_MASK) | step_outmap[step_outbits.value];
+    STEP_PORT->ODR = (STEP_PORT->ODR & ~STEP_MASK) | step_outmap[step_outbits.value];
 #else
     STEP_PORT->ODR = (STEP_PORT->ODR & ~STEP_MASK) | ((step_outbits.mask ^ settings.steppers.step_invert.mask) << STEP_OUTMODE);
 #endif
@@ -402,11 +402,11 @@ static control_signals_t systemGetState (void)
     signals.value = settings.control_invert.mask;
 
 #if CONTROL_INMODE == GPIO_BITBAND
-    signals.reset = BITBAND_PERI(CONTROL_PORT->IDR, RESET_PIN);
-    signals.feed_hold = BITBAND_PERI(CONTROL_PORT->IDR, FEED_HOLD_PIN);
-    signals.cycle_start = BITBAND_PERI(CONTROL_PORT->IDR, CYCLE_START_PIN);
+    signals.reset = BITBAND_PERI(RESET_PORT->IDR, RESET_PIN);
+    signals.feed_hold = BITBAND_PERI(FEED_HOLD_PORT->IDR, FEED_HOLD_PIN);
+    signals.cycle_start = BITBAND_PERI(CYCLE_START_PORT->IDR, CYCLE_START_PIN);
  #ifdef SAFETY_DOOR_PIN
-    signals.safety_door_ajar = BITBAND_PERI(CONTROL_PORT->IDR, SAFETY_DOOR_PIN);
+    signals.safety_door_ajar = BITBAND_PERI(SAFETY_DOOR_PORT->IDR, SAFETY_DOOR_PIN);
  #endif
 #elif CONTROL_INMODE == GPIO_MAP
     uint32_t bits = CONTROL_PORT->IDR;
@@ -419,7 +419,7 @@ static control_signals_t systemGetState (void)
 #else
     signals.value = (uint8_t)((CONTROL_PORT->IDR & CONTROL_MASK) >> CONTROL_INMODE);
  #ifndef SAFETY_DOOR_PIN
- 	signals.safety_door_ajar = settings.control_invert.safety_door_ajar;
+    signals.safety_door_ajar = settings.control_invert.safety_door_ajar;
  #endif
 #endif
 
@@ -499,7 +499,7 @@ static void spindle_set_speed (uint_fast16_t pwm_value)
             SPINDLE_PWM_TIMER->CCR1 = spindle_pwm.off_value;
             SPINDLE_PWM_TIMER->BDTR |= TIM_BDTR_MOE;
         } else
-        	SPINDLE_PWM_TIMER->BDTR &= ~TIM_BDTR_MOE; // Set PWM output low
+            SPINDLE_PWM_TIMER->BDTR &= ~TIM_BDTR_MOE; // Set PWM output low
     } else {
         if(!pwmEnabled)
             spindle_on();
@@ -618,7 +618,7 @@ void settings_changed (settings_t *settings)
 
         if((hal.spindle.cap.variable = spindle_precompute_pwm_values(&spindle_pwm, SystemCoreClock / (settings->spindle.pwm_freq > 200.0f ? 1 : 25)))) {
 
-        	hal.spindle.set_state = spindleSetStateVariable;
+            hal.spindle.set_state = spindleSetStateVariable;
 
             SPINDLE_PWM_TIMER->CR1 &= ~TIM_CR1_CEN;
 
@@ -638,10 +638,10 @@ void settings_changed (settings_t *settings)
             SPINDLE_PWM_TIMER->CCR1 = 0;
             if(settings->spindle.invert.pwm) {
                 SPINDLE_PWM_TIMER->CCER |= TIM_CCER_CC1P;
-            	SPINDLE_PWM_TIMER->CR2 |= TIM_CR2_OIS1;
+                SPINDLE_PWM_TIMER->CR2 |= TIM_CR2_OIS1;
             } else {
                 SPINDLE_PWM_TIMER->CCER &= ~TIM_CCER_CC1P;
-            	SPINDLE_PWM_TIMER->CR2 &= ~TIM_CR2_OIS1;
+                SPINDLE_PWM_TIMER->CR2 &= ~TIM_CR2_OIS1;
             }
             SPINDLE_PWM_TIMER->BDTR |= TIM_BDTR_OSSR|TIM_BDTR_OSSI;
             SPINDLE_PWM_TIMER->CCER |= TIM_CCER_CC1E;

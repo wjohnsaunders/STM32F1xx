@@ -28,13 +28,17 @@
 #endif
 #define BOARD_INFO "STM32F103RC"
 
-#define BOARD_END_OF_FLASH		0x8003FFFF
+#define BOARD_END_OF_FLASH      0x8003FFFF
 
 // USB speed detect resistor needs GPIO driven low
 #define HAS_POST_USB_INIT
-#define USB_ENABLE_PORT			GPIOC
-#define USB_ENABLE_PIN			11
-#define USB_ENABLE_STATE		0
+#define USB_ENABLE_PORT         GPIOC
+#define USB_ENABLE_PIN          11
+#define USB_ENABLE_STATE        0
+
+// Flash LED to show running.
+#define BLINK_LED_PORT          GPIOC
+#define BLINK_LED_PIN           2
 
 // Define step pulse output pins.
 #define X_STEP_PORT             GPIOB
@@ -56,7 +60,6 @@
 
 // Define ganged axis or A axis step pulse and step direction output pins.
 #if N_ABC_MOTORS == 1
-#define A_AXIS
 #define M3_AVAILABLE
 #define M3_STEP_PORT            GPIOA
 #define M3_STEP_PIN             5
@@ -66,22 +69,26 @@
 
 // Define stepper driver enable/disable output pin.
 #define STEPPERS_ENABLE_PORT    GPIOB
-#define STEPPERS_ENABLE_PIN     10
+#define STEPPERS_ENABLE_PIN     10      // Enables the HC541 driver chip
 
 // Define homing/hard limit switch input pins.
 // IN1 PB12 (used for X limit)
 // IN2 PB13 (used for Y limit)
 // IN3 PB14 (used for Z limit)
-// IN4 PB15 (used for probe)
+// IN4 PB15 (used for probe - compatible with Mach3 usage)
 #define LIMIT_PORT              GPIOB
 #define X_LIMIT_PIN             12
 #define Y_LIMIT_PIN             13
 #define Z_LIMIT_PIN             14
 #define LIMIT_INMODE            GPIO_SHIFT12
 
+// Define probe switch input pin.
+#define PROBE_PORT              GPIOB
+#define PROBE_PIN               15
+
 // Define spindle enable and spindle direction output pins.
 // OUT1 PC6 (use for spindle direction)
-// OUT2 PC7 (use for spindle start/stop)
+// OUT2 PC7 (use for spindle start/stop - compatible with Mach3 usage)
 // OUT3 PC8 (use for coolant flood)
 // OUT4 PC9 (use for coolant mist)
 #define SPINDLE_ENABLE_PORT     GPIOC
@@ -101,16 +108,14 @@
 
 // Define user-control controls (cycle start, reset, feed hold) input pins.
 #define CONTROL_PORT            GPIOB
-#define RESET_PIN               6
-#define FEED_HOLD_PIN           7
-#define CYCLE_START_PIN         8
+#define FEED_HOLD_PIN           8       // X+ button on simple pendant
+#define CYCLE_START_PIN         9       // X- button on simple pendant
+#define RESET_PORT              GPIOC
+#define RESET_PIN               10      // unconnected pin - so no reset functionality
 #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
-#define SAFETY_DOOR_PIN         9
+#define SAFETY_DOOR_PORT        GPIO?
+#define SAFETY_DOOR_PIN         ?
 #endif
-#define CONTROL_INMODE          GPIO_SHIFT6
-
-// Define probe switch input pin.
-#define PROBE_PORT              GPIOB
-#define PROBE_PIN               15
+#define CONTROL_INMODE          GPIO_BITBAND
 
 /**/
