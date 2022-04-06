@@ -57,6 +57,10 @@
 #include "keypad/keypad.h"
 #endif
 
+#if BLINKLED_ENABLE
+#include "blinkled/blinkled.h"
+#endif
+
 #if ODOMETER_ENABLE
 #include "odometer/odometer.h"
 #endif
@@ -1129,6 +1133,10 @@ bool driver_init (void)
 
 #if KEYPAD_ENABLE
     keypad_init();
+#endif
+
+#if BLINKLED_ENABLE
+    blinkled_init();
 #endif
 
     my_plugin_init();
