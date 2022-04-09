@@ -34,3 +34,15 @@ void post_usb_init (void)
 
     BITBAND_PERI(USB_ENABLE_PORT->ODR, USB_ENABLE_PIN) = USB_ENABLE_STATE;
 }
+
+void board_init (void)
+{
+    GPIO_InitTypeDef GPIO_Init = {
+        .Mode  = GPIO_MODE_OUTPUT_PP,
+        .Speed = GPIO_SPEED_FREQ_LOW,
+        .Pin   = (1 << HC541_ENABLE_PIN)
+    };
+    HAL_GPIO_Init(HC541_ENABLE_PORT, &GPIO_Init);
+
+    BITBAND_PERI(HC541_ENABLE_PORT->ODR, HC541_ENABLE_PIN) = 0;
+}

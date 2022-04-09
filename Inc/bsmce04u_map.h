@@ -36,6 +36,10 @@
 #define USB_ENABLE_PIN          11
 #define USB_ENABLE_STATE        0
 
+#define HAS_BOARD_INIT
+#define HC541_ENABLE_PORT       GPIOB
+#define HC541_ENABLE_PIN        10
+
 // Flash LED to show running.
 #define BLINK_LED_PORT          GPIOC
 #define BLINK_LED_PIN           2
@@ -68,8 +72,10 @@
 #endif
 
 // Define stepper driver enable/disable output pin.
-#define STEPPERS_ENABLE_PORT    GPIOB
-#define STEPPERS_ENABLE_PIN     10      // Enables the HC541 driver chip
+#if N_ABC_MOTORS == 0
+#define STEPPERS_ENABLE_PORT    GPIOA
+#define STEPPERS_ENABLE_PIN     3       // Use AD for stepper enable in 3-axis mode
+#endif
 
 // Define homing/hard limit switch input pins.
 // IN1 PB12 (used for X limit)

@@ -232,9 +232,15 @@ static void stepperEnable (axes_signals_t enable)
  #ifdef STEPPERS_ENABLE_PIN
     BITBAND_PERI(STEPPERS_ENABLE_PORT->ODR, STEPPERS_ENABLE_PIN) = enable.x;
  #else
+  #ifdef X_ENABLE_PIN
     BITBAND_PERI(X_ENABLE_PORT->ODR, X_ENABLE_PIN) = enable.x;
+  #endif
+  #ifdef Y_ENABLE_PIN
     BITBAND_PERI(Y_ENABLE_PORT->ODR, Y_ENABLE_PIN) = enable.y;
+  #endif
+  #ifdef Z_ENABLE_PIN
     BITBAND_PERI(Z_ENABLE_PORT->ODR, Z_ENABLE_PIN) = enable.z;
+  #endif
   #ifdef A_ENABLE_PIN
     BITBAND_PERI(A_ENABLE_PORT->ODR, A_ENABLE_PIN) = enable.a;
   #endif
@@ -379,9 +385,9 @@ inline static limit_signals_t limitsGetState()
     limit_signals_t signals = {0};
 
 #if LIMIT_INMODE == GPIO_BITBAND
-    signals.min.x = BITBAND_PERI(LIMIT_PORT->IDR, X_LIMIT_PIN);
-    signals.min.y = BITBAND_PERI(LIMIT_PORT->IDR, Y_LIMIT_PIN);
-    signals.min.z = BITBAND_PERI(LIMIT_PORT->IDR, Z_LIMIT_PIN);
+    signals.min.x = BITBAND_PERI(X_LIMIT_PORT->IDR, X_LIMIT_PIN);
+    signals.min.y = BITBAND_PERI(Y_LIMIT_PORT->IDR, Y_LIMIT_PIN);
+    signals.min.z = BITBAND_PERI(Z_LIMIT_PORT->IDR, Z_LIMIT_PIN);
 #elif LIMIT_INMODE == GPIO_MAP
     uint32_t bits = LIMIT_PORT->IDR;
     signals.min.x = (bits & X_LIMIT_BIT) != 0;
